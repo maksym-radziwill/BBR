@@ -17,7 +17,7 @@ set_option linter.style.longLine false
 We construct a bivariate polynomial `f(x,y) = Σ_{i,j} a(i,j) xⁱyʲ` satisfying:
 
 1. **Support**: nonzero coefficients lie in `{i,j ≤ 4} ∪ {j=0, i≤8} ∪ {i=0, j≤8}`.
-2. **Catalan bound**: `Σ_{i,j} a(2i,2j) · C(i) · C(j) < 1/2`.
+2. **Catalan bound**: `Σ_{i,j} a(2i,2j) · C(i) · C(j) < 0.492`.
 3. **Non-negativity**: `f(x,y) ≥ 0` for all real x,y.
 4. **Diagonal lower bound**: `f(x,y) ≥ 1` whenever `|x-y|` is small enough.
 
@@ -47,7 +47,7 @@ The statement is repeated here for convenience.
 ```
 theorem poly_lemma : ∃ (a : ℕ → ℕ → ℝ) (N : ℕ),
     (∀ i j, a i j ≠ 0 → InSupport i j ∧ i < N ∧ j < N)
-    ∧ catalan_sum a N < 1 / 2
+    ∧ catalan_sum a N < 0.492
     ∧ (∀ x y : ℝ, 0 ≤ eval_poly a N x y)
     ∧ (∃ ε : ℝ, 0 < ε ∧ ∀ x y : ℝ, |x - y| ≤ ε → 1 ≤ eval_poly a N x y)
 ```
@@ -137,7 +137,7 @@ theorem u_coeff_support (i j : ℕ) (h : u_coeff i j ≠ 0) : InSupport i j := b
 theorem catalan_inner_sum_val : catalan_inner_sum = 2516273466118 := by
   decide
 
-theorem catalan_bound : 2 * (2516273466118 : ℝ) / (20 : ℝ) ^ 10 < 1 / 2 := by
+theorem catalan_bound : 2 * (2516273466118 : ℝ) / (20 : ℝ) ^ 10 < 0.492 := by
   norm_num
 
 /-! ## SOS polynomials p₁–p₁₅ -/
@@ -638,7 +638,7 @@ set_option maxHeartbeats 800000 in
 -/
 theorem poly_lemma : ∃ (a : ℕ → ℕ → ℝ) (N : ℕ),
     (∀ i j, a i j ≠ 0 → InSupport i j ∧ i < N ∧ j < N)
-    ∧ catalan_sum a N < 1 / 2
+    ∧ catalan_sum a N < 0.492
     ∧ (∀ x y : ℝ, 0 ≤ eval_poly a N x y)
     ∧ (∃ ε : ℝ, 0 < ε ∧ ∀ x y : ℝ, |x - y| ≤ ε → 1 ≤ eval_poly a N x y) := by
   refine ⟨f_coeffs, 9, ?_, ?_, ?_, ?_⟩
@@ -652,7 +652,7 @@ theorem poly_lemma : ∃ (a : ℕ → ℕ → ℝ) (N : ℕ),
                  by rcases hs with ⟨_, h2⟩ | ⟨h1, _⟩ | ⟨_, h2⟩ <;> omega⟩
     · exact absurd rfl h
   · -- (2) Catalan sum < 1/2
-    show catalan_sum f_coeffs 9 < 1 / 2
+    show catalan_sum f_coeffs 9 < 0.492
     have key : catalan_sum f_coeffs 9 = 2 * (catalan_inner_sum : ℝ) / (20 : ℝ) ^ 10 := by
       unfold catalan_sum catalan_inner_sum f_coeffs even_part
       simp only [u_coeff, catalan, Finset.sum_range_succ, Finset.sum_range_zero]
