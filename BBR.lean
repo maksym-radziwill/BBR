@@ -629,12 +629,13 @@ set_option maxHeartbeats 800000 in
 -- Heavy simp calculation
 
 /--
-**Lemma 7.2 [BBR].** There exist `a : ℕ → ℕ → ℝ` and `N : ℕ` such that
-`f(x,y) = Σ_{i,j < N} a(i,j) xⁱyʲ` satisfies:
-1. `a(i,j) = 0` unless `(i,j) ∈ S`, and `i,j ≤ N`;
-2. `Σ_{i,j < N} a(2i,2j) C(i) C(j) < 1/2`;
-3. `f(x,y) ≥ 0` for all `x, y`;
-4. there exists `ε > 0` with `f(x,y) ≥ 1` whenever `|x − y| ≤ ε`.
+**Lemma 7.2 [BBR].** There exist `a : ℕ → ℕ → ℝ` and `N : ℕ` such that:
+1. `a(i,j) = 0` unless `{i,j ≤ 4} ∪ {j=0, i≤8} ∪ {i=0, j≤8}`, and `i,j < N`;
+2. `Σ_{i,j < N} a(2i,2j) C(i) C(j) < 0.492`;
+3. `f(x,y) ≥ 0` for all `x, y` where `f(x,y) = Σ_{i,j < N} a(i,j) xⁱyʲ`
+4. there exists `ε > 0` such that `f(x,y) ≥ 1` whenever `|x − y| ≤ ε`.
+
+Note: The `N : ℕ` helps with formalization, mathematically it is redundant.
 -/
 theorem poly_lemma : ∃ (a : ℕ → ℕ → ℝ) (N : ℕ),
     (∀ i j, a i j ≠ 0 → InSupport i j ∧ i < N ∧ j < N)
