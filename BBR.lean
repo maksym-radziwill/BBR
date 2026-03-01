@@ -46,7 +46,7 @@ The statement is repeated here for convenience.
 
 ```
 theorem poly_lemma : ∃ (a : ℕ → ℕ → ℝ) (N : ℕ),
-    (∀ i j, a i j ≠ 0 → InSupport i j ∧ i < N ∧ j < N)
+    (∀ i j, a i j ≠ 0 → InSupport i j ∧ (i ∈ Finset.range N) ∧ (j ∈ Finset.range N))
     ∧ catalan_sum a N < 0.492
     ∧ (∀ x y : ℝ, 0 ≤ eval_poly a N x y)
     ∧ (∃ ε : ℝ, 0 < ε ∧ ∀ x y : ℝ, |x - y| ≤ ε → 1 ≤ eval_poly a N x y)
@@ -638,7 +638,7 @@ set_option maxHeartbeats 800000 in
 Note: The `N : ℕ` helps with formalization, mathematically it is redundant.
 -/
 theorem poly_lemma : ∃ (a : ℕ → ℕ → ℝ) (N : ℕ),
-    (∀ i j, a i j ≠ 0 → InSupport i j ∧ i < N ∧ j < N)
+    (∀ i j, a i j ≠ 0 → InSupport i j ∧ (i ∈ Finset.range N) ∧ (j ∈ Finset.range N))
     ∧ catalan_sum a N < 0.492
     ∧ (∀ x y : ℝ, 0 ≤ eval_poly a N x y)
     ∧ (∃ ε : ℝ, 0 < ε ∧ ∀ x y : ℝ, |x - y| ≤ ε → 1 ≤ eval_poly a N x y) := by
@@ -649,8 +649,8 @@ theorem poly_lemma : ∃ (a : ℕ → ℕ → ℝ) (N : ℕ),
     split_ifs at h with hp
     · have hu : u_coeff i j ≠ 0 := by intro hz; exact h (by rw [hz]; simp)
       have hs := u_coeff_support i j hu
-      exact ⟨hs, by rcases hs with ⟨h1, _⟩ | ⟨_, h2⟩ | ⟨_, h2⟩ <;> omega,
-                 by rcases hs with ⟨_, h2⟩ | ⟨h1, _⟩ | ⟨_, h2⟩ <;> omega⟩
+      exact ⟨hs, by rcases hs with ⟨h1, _⟩ | ⟨_, h2⟩ | ⟨_, h2⟩ <;> grind,
+                 by rcases hs with ⟨_, h2⟩ | ⟨h1, _⟩ | ⟨_, h2⟩ <;> grind⟩
     · exact absurd rfl h
   · -- (2) Catalan sum < 1/2
     show catalan_sum f_coeffs 9 < 0.492
